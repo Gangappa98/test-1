@@ -9,7 +9,7 @@ pipeline{
 	stages{
 		stage('Git checkout'){
 			steps{
-				git branch: 'verion-1', url: 'https://github.com/ManojKRISHNAPPA/test-1.git'
+				git branch: 'verion-1', url: 'https://github.com/Gangappa98/test-1.git'
 			}
 		}
 		stage('Compile'){
@@ -29,7 +29,7 @@ pipeline{
 		}
 		stage('Building-DockerImage'){
 			steps{
-				sh 'docker build -t manojkrishnappa/continous-intergartion:1 .'
+				sh 'docker build -t Gangappa98/continous-intergartion:1 .'
 			}
 		}
 
@@ -37,7 +37,7 @@ pipeline{
 			sh '''
 				docker stop c1 || true
 				docker rm c1 || true
-				docker run -it -d --name c1 -p 9000:8080 manojkrishnappa/continous-intergartion:1
+				docker run -it -d --name c1 -p 9000:8080 Gangappa98/continous-intergartion:1
 
 			'''	
 		}
