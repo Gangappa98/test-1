@@ -2,7 +2,7 @@ provider "aws" {
     region ="us-east-1"
   
 }
-
+#creating the aws vpc
 resource "aws_vpc" "myvpc" {
     cidr_block = "10.0.0.0/24"
     enable_dns_hostnames = true
@@ -16,7 +16,7 @@ resource "aws_subnet" "public-subnet" {
     cidr_block = "10.0.0.0/25"
     vpc_id = aws_vpc.myvpc.id
     availability_zone = "us-east-1a"
-    map_public_ip_on_launch = true
+    map_public_ip_on_launch = true  
   tags = {
     Name ="public-subnet1"
   }
