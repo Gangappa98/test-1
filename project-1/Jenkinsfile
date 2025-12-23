@@ -14,9 +14,37 @@ pipeline {
             steps {
                 script{
                     dir ("terrform")
-                    git branch: 'feature' url:""
+                    git branch: 'feature' url:"https://github.com/Gangappa98/test-1.git"
                 }
             }
         }
+        stage('plan'){
+            steps{
+                sh 'pwd;cd project-1/ ; terraform init'
+                sh "pwd;cd project-1/ ; terraform plan -out tfplan"
+                sh 'pwd;cd project-1/ ; terraform show -no-color tfplan > tfplan.txt'
+            }
+        }
+        stage('Approval'){
+            steps{
+                script {
+                    def plan = readFile 'project-1/tfplan.txt'
+                    input message: "Do you want to proceed with the Terraform action?",
+                    parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
+                }
+            }
+        }
+        stage('Apply or Destroy'){
+            steps{
+                script{
+                    if (params.terraformAction == 'apply') {
+                        sh "pwd;cd project-1/ ; terraform apply -input=false tfplan"
+                    } else if (params.terraformAction == 'destroy') {
+                        sh "pwd;cd project-1/ ; terraform destroy -auto-approve"
+                    }
+                }
+            }
+        }
+
     }
 }
