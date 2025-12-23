@@ -13,7 +13,7 @@ resource "aws_vpc" "myvpc" {
 }
 
 resource "aws_subnet" "public-subnet" {
-    cidr_block = "10.0.1.0/24"
+    cidr_block = "10.0.0.0/25"
     vpc_id = aws_vpc.myvpc.id
     availability_zone = "us-east-1a"
     map_public_ip_on_launch = true
@@ -23,8 +23,8 @@ resource "aws_subnet" "public-subnet" {
 }
 
 resource "aws_subnet" "public-subent2" {
-    cidr_block = "10.0.2.0/24"
-    vpc_id = aws_vpc.myvpc.owner_id
+    cidr_block = "10.0.0.128/25"
+    vpc_id = aws_vpc.myvpc.id
     availability_zone = "us-east-1b"
     map_public_ip_on_launch = true
 
@@ -35,7 +35,7 @@ resource "aws_subnet" "public-subent2" {
 }
 
 resource "aws_internet_gateway" "IGW" {
-    vpc_id = aws_vpc.myvpc
+    vpc_id = aws_vpc.myvpc.id
 
     tags = {
       Name = "MyIGW"
@@ -51,13 +51,13 @@ resource "aws_route_table" "RT" {
     }
 }
 resource "aws_route" "rout" {
-    route_table_id = aws_route_table.RT
+    route_table_id = aws_route_table.RT.id
     destination_cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.IGW
+    gateway_id = aws_internet_gateway.IGW.id
 }
 
 resource "aws_route_table_association" "public-subnet-aws_route_table_association" {
     subnet_id = aws_subnet.public-subnet.id
-    route_table_id = aws_route_table.RT
+    route_table_id = aws_route_table.RT.id
   
 }
