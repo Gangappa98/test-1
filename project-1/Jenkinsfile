@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script{
                     dir ("terrform")
-                    git branch: 'feature' url:"https://github.com/Gangappa98/test-1.git"
+                    git branch: 'feature' url:'https://github.com/Gangappa98/test-1.git'
                 }
             }
         }
