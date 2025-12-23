@@ -8,6 +8,9 @@ pipeline {
     }
 
     agent any
+    tools {
+        git 'default'
+    }
     stages{
         stage('checkout'){
             steps {
